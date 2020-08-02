@@ -1,0 +1,83 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: away-from-keyboard
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: away-from-keyboard
+    spec:
+      containers:
+      - name: away-from-keyboard-api
+        imagePullPolicy: Always
+        image: pyama/away-from-keyboard:0.0.1
+        tty: true
+        args: ["unicorn", "-c", "config/unicorn.rb", "-p", "8080"]
+        securityContext:
+          readOnlyRootFilesystem: true
+          runAsUser: 65534
+        ports:
+        - containerPort: 8080
+        livenessProbe:
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          httpGet:
+            path: /
+            port: 8080
+        readinessProbe:
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          httpGet:
+            path: /
+            port: 8080
+        env:
+          - name: APP_ENV
+            value: "production"
+          - name: SLACK_API_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: away-from-keyboard-secret
+                key: slack-api-token
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: away-from-keyboard-bot
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: away-from-keyboard-bot
+    spec:
+      containers:
+      - name: away-from-keyboard-bot
+        args: ["ruby", "bot.rb"]
+        image: pyama/away-from-keyboard:0.0.1
+        imagePullPolicy: Always
+        tty: true
+        securityContext:
+          readOnlyRootFilesystem: true
+          runAsUser: 65534 # nobody
+          runAsNonRoot: true
+        readinessProbe:
+          tcpSocket:
+            port: 1234
+          initialDelaySeconds: 3
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 1234
+          initialDelaySeconds: 3
+          periodSeconds: 10
+        env:
+          - name: APP_ENV
+            value: "production"
+          - name: SLACK_API_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: away-from-keyboard-secret
+                key: slack-api-token

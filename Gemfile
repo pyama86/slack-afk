@@ -12,5 +12,6 @@ gem 'config'
 gem 'slack-ruby-bot'
 gem 'activesupport'
 gem 'redis'
+gem 'foreman'
 
 gem 'async-websocket', '~>0.8.0'

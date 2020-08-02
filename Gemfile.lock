@@ -66,6 +66,7 @@ GEM
       multipart-post (>= 1.2, < 3)
     faraday_middleware (1.0.0)
       faraday (~> 1.0)
+    foreman (0.87.1)
     gli (2.19.2)
     hashie (4.1.0)
     i18n (1.8.5)
@@ -125,6 +126,7 @@ DEPENDENCIES
   async-websocket (~> 0.8.0)
   config
   dotenv
+  foreman
   redis
   sinatra
   sinatra-contrib

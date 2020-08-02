@@ -22,7 +22,6 @@ Thread.new do
   loop do
     begin
       sock = server.accept
-      client.ping
       line = sock.gets
       sock.write("HTTP/1.0 200 OK\n\nok")
       sock.close

@@ -40,19 +40,6 @@ spec:
               secretKeyRef:
                 name: away-from-keyboard-secret
                 key: slack-api-token
----
-apiVersion: apps/v1beta1
-kind: Deployment
-metadata:
-  name: away-from-keyboard-bot
-spec:
-  replicas: 1
-  template:
-    metadata:
-      labels:
-        name: away-from-keyboard-bot
-    spec:
-      containers:
       - name: away-from-keyboard-bot
         args: ["ruby", "bot.rb"]
         image: pyama/away-from-keyboard:0.0.1
@@ -81,3 +68,8 @@ spec:
               secretKeyRef:
                 name: away-from-keyboard-secret
                 key: slack-api-token
+      - name: redis
+        image: redis
+        tty: true
+        ports:
+        - containerPort: 6379

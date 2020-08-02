@@ -131,6 +131,7 @@ DEPENDENCIES
   sinatra
   sinatra-contrib
   slack-ruby-bot
+  slack-ruby-client
   unicorn
 
 BUNDLED WITH

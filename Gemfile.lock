@@ -1,3 +1,15 @@
+GIT
+  remote: https://github.com/pyama86/slack-ruby-client
+  revision: a898c238fb380bf7f888619901e085b0e9a3e501
+  branch: nil-check
+  specs:
+    slack-ruby-client (0.15.1)
+      faraday (>= 1.0)
+      faraday_middleware
+      gli
+      hashie
+      websocket-driver
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -99,12 +111,6 @@ GEM
     slack-ruby-bot (0.16.0)
       hashie
       slack-ruby-client (>= 0.14.0)
-    slack-ruby-client (0.15.0)
-      faraday (>= 1.0)
-      faraday_middleware
-      gli
-      hashie
-      websocket-driver
     thread_safe (0.3.6)
     tilt (2.0.10)
     timers (4.3.0)
@@ -131,7 +137,7 @@ DEPENDENCIES
   sinatra
   sinatra-contrib
   slack-ruby-bot
-  slack-ruby-client
+  slack-ruby-client!
   unicorn
 
 BUNDLED WITH

@@ -25,9 +25,9 @@ channels.flatten!
 channels.each do |c|
   next_cursor = nil
   loop do
+    c["members"] ||= []
     break if c["num_members"] == 0 || c["is_archived"]
     channel_members = slack.conversations_members({channel: c["id"], limit: 1000, cursor: next_cursor})
-    c["members"] ||= []
     c["members"] << channel_members['members']
     next_cursor = channel_members['response_metadata']['next_cursor']
     break if next_cursor.empty?

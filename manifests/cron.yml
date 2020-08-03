@@ -19,7 +19,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: away-from-keyboard-secret
-                  key: user-slack-api-token
+                  key: slack-user-api-token
             args: ["ruby", "join.rb"]
             image: pyama/away-from-keyboard:0.0.1
             imagePullPolicy: Always

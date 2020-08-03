@@ -1,12 +1,10 @@
 require 'sinatra/reloader' if development?
 require 'sinatra/custom_logger'
-require 'slack-ruby-bot'
-require "redis"
-require "thread"
+require "time"
 require "json"
+
 module App
   class Api < Sinatra::Base
-    include SlackApiCallerble
     helpers Sinatra::CustomLogger
     configure :development, :staging, :production do
       logger = Logger.new(STDERR)
@@ -39,6 +37,7 @@ module App
         else
           Redis.current.set(uid, "#{params["user_name"]} は席を外しています。反応が遅れるかもしれません。")
         end
+        "行ってらっしゃい!!1"
       when "/lunch"
         unless params["text"].empty?
           Redis.current.set(uid, "#{params["user_name"]} はランチに行っています。「#{params["text"]}」")
@@ -46,8 +45,8 @@ module App
           Redis.current.set(uid, "#{params["user_name"]} はランチに行っています。反応が遅れるかもしれません。")
         end
         Redis.current.expire(uid, 3600)
+        "行ってらっしゃい!!1 #{(Time.now + 3600).strftime("%H:%M")}に自動で解除します"
       end
-      "行ってらっしゃい!!1"
     end
 
     post '/delete' do

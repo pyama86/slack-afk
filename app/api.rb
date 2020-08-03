@@ -35,7 +35,7 @@ module App
       case params["command"]
       when "/afk"
         unless params["text"].empty?
-          Redis.current.set(uid, "#{params["user_name"]} からは席を外しています。「#{params["text"]}」")
+          Redis.current.set(uid, "#{params["user_name"]} は席を外しています。「#{params["text"]}」")
         else
           Redis.current.set(uid, "#{params["user_name"]} は席を外しています。反応が遅れるかもしれません。")
         end

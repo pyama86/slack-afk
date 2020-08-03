@@ -45,6 +45,7 @@ module App
         else
           Redis.current.set(uid, "#{params["user_name"]} はランチに行っています。反応が遅れるかもしれません。")
         end
+        Redis.current.expire(uid, 3600)
       end
       "行ってらっしゃい!!1"
     end

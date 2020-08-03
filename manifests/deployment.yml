@@ -33,6 +33,8 @@ spec:
             path: /
             port: 8080
         env:
+          - name: TZ
+            value: Asia/Tokyo
           - name: LANG
             value: C.UTF-8
           - name: APP_ENV
@@ -63,6 +65,8 @@ spec:
           initialDelaySeconds: 3
           periodSeconds: 10
         env:
+          - name: TZ
+            value: Asia/Tokyo
           - name: LANG
             value: C.UTF-8
           - name: APP_ENV

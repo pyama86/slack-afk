@@ -15,7 +15,7 @@ spec:
             env:
             - name: LANG
               value: C.UTF-8
-            - name: SLACK_APIKEY
+            - name: SLACK_API_TOKEN
               valueFrom:
                 secretKeyRef:
                   name: away-from-keyboard-secret

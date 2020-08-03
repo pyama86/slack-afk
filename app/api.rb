@@ -27,11 +27,11 @@ module App
       payload["challenge"]
     end
 
-    post '/regist' do
+    post '/register' do
       content_type 'text/plain; charset=utf8'
       uid = params["user_id"]
       reset(uid)
-      Redis.current.lpush("registed", uid)
+      Redis.current.lpush("registered", uid)
       case params["command"]
       when "/afk"
         unless params["text"].empty?
@@ -57,7 +57,7 @@ module App
     end
 
     def reset(id)
-      Redis.current.lrem("registed", 0, id)
+      Redis.current.lrem("registered", 0, id)
       Redis.current.del(id)
     end
   end

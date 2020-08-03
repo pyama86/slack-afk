@@ -8,7 +8,7 @@ server = SlackRubyBot::Server.new(
   token: ENV['SLACK_API_TOKEN'],
   hook_handlers: {
     message: [->(client, data) {
-      entries = Redis.current.lrange("registed", 0, -1)
+      entries = Redis.current.lrange("registered", 0, -1)
       mention = entries.find do |entry|
         data.text =~ /<@#{entry}>/
       end

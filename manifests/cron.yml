@@ -1,0 +1,26 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: away-from-keyboard-autojoin
+spec:
+  schedule: "0 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: away-from-keyboard-autojoin
+            image: pyama/away-from-keyboard:0.0.1
+            imagePullPolicy: Always
+            env:
+            - name: LANG
+              value: C.UTF-8
+            - name: SLACK_APIKEY
+              valueFrom:
+                secretKeyRef:
+                  name: away-from-keyboard-secret
+                  key: user-slack-api-token
+            args: ["ruby", "join.rb"]
+            image: pyama/away-from-keyboard:0.0.1
+            imagePullPolicy: Always
+          restartPolicy: Never

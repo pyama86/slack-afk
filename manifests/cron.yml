@@ -13,6 +13,8 @@ spec:
             image: pyama/away-from-keyboard:0.0.1
             imagePullPolicy: Always
             env:
+            - name: SLACK_USER
+              value: "afk"
             - name: LANG
               value: C.UTF-8
             - name: SLACK_API_TOKEN

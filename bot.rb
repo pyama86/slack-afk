@@ -1,8 +1,5 @@
 require 'slack-ruby-bot'
-require "redis"
 require './app'
-
-require 'slack-ruby-bot'
 
 server = SlackRubyBot::Server.new(
   token: ENV['SLACK_API_TOKEN'],

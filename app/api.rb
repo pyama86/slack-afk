@@ -6,6 +6,7 @@ require "active_support/time"
 
 module App
   class Api < Sinatra::Base
+    include SlackApiCallerble
     helpers Sinatra::CustomLogger
     configure :development, :staging, :production do
       logger = Logger.new(STDERR)
@@ -40,6 +41,7 @@ module App
           Redis.current.set(uid, "#{params["user_name"]} は席を外しています。反応が遅れるかもしれません。")
         end
 
+        bot_token_client.chat_postMessage(channel: params["channel_id"], text: "#{params["user_name"]}が離席しました。代わりに不在をお伝えします",  as_user: true)
         unless minute.empty?
           diff = minute.to_i * 60
           Redis.current.expire(uid, diff.to_i)
@@ -55,6 +57,7 @@ module App
         end
         tomorrow = Time.now.beginning_of_day + 3600 * 33
         Redis.current.expire(uid, (tomorrow - Time.now).to_i)
+        bot_token_client.chat_postMessage(channel: params["channel_id"], text: "#{params["user_name"]}が退勤しました。お疲れさまでした！！１",  as_user: true)
         (ENV['AFK_FINISH_MESSAGE'] ||"お疲れさまでした!!1") + " 明日の#{tomorrow.strftime("%H:%M")}に自動で解除します"
       when "/lunch"
         unless params["text"].empty?
@@ -63,6 +66,7 @@ module App
           Redis.current.set(uid, "#{params["user_name"]} はランチに行っています。反応が遅れるかもしれません。")
         end
         Redis.current.expire(uid, 3600)
+        bot_token_client.chat_postMessage(channel: params["channel_id"], text: "#{params["user_name"]}がランチに行きました。何食べるんでしょうね？", as_user: true)
         "行ってらっしゃい!!1 #{(Time.now + 3600).strftime("%H:%M")}に自動で解除します"
       end
     end

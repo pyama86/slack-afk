@@ -10,7 +10,7 @@ server = SlackRubyBot::Server.new(
         data.text =~ /<@#{entry}>/
       end
       message = Redis.current.get(mention)
-      client.say(text: "自動応答:#{message}", channel: data.channel,
+      client.say(text: "自動応答: #{message}", channel: data.channel,
                  thread_ts: data.thread_ts
                 ) if mention && message
     }],

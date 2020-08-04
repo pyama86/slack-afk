@@ -12,7 +12,8 @@ Slack App経由でRedisに情報を登録して、ボットがそれらの情報
   1. `/afk` リクエストエンドポイント `https://<your domain>/register`
   2. `/afk_(number)` リクエストエンドポイント `https://<your domain>/register` (指定した数字分経過で自動解除)
   3. `/lunch` リクエストエンドポイント `https://<your domain>/register`(60分経過で自動解除)
-  4. `/comeback` リクエストエンドポイント `https://<your domain>/delete`
+  3. `/finish` リクエストエンドポイント `https://<your domain>/register`(翌日9時に自動解除)
+  5. `/comeback` リクエストエンドポイント `https://<your domain>/delete`
 
 ### ボットユーザーの作成
 

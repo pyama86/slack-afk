@@ -1,6 +1,7 @@
 require 'slack-ruby-bot'
 require './app'
 
+SlackRubyBot::Client.logger.level = Logger::WARN
 server = SlackRubyBot::Server.new(
   token: ENV['SLACK_API_TOKEN'],
   hook_handlers: {

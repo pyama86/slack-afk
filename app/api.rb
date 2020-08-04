@@ -42,7 +42,7 @@ module App
 
         unless minute.empty?
           diff = minute.to_i * 60
-          Redis.current.expire(uid, diff)
+          Redis.current.expire(uid, diff.to_i)
           "行ってらっしゃい!!1 #{(Time.now + diff).strftime("%H:%M")}に自動で解除します"
         else
           "行ってらっしゃい!!1"
@@ -54,8 +54,8 @@ module App
           Redis.current.set(uid, "#{params["user_name"]} は退勤しました。反応が遅れるかもしれません。")
         end
         tomorrow = Time.now.beginning_of_day + 3600 * 33
-        Redis.current.expire(uid, (tomorrow - Time.now))
-        "お疲れさまでした!!1 明日の#{tomorrow.strftime("%H:%M")}に自動で解除します"
+        Redis.current.expire(uid, (tomorrow - Time.now).to_i)
+        (ENV['AFK_FINUSH_MESSAGE'] ||"お疲れさまでした!!1") + " 明日の#{tomorrow.strftime("%H:%M")}に自動で解除します"
       when "/lunch"
         unless params["text"].empty?
           Redis.current.set(uid, "#{params["user_name"]} はランチに行っています。「#{params["text"]}」")

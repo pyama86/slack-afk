@@ -26,3 +26,32 @@ spec:
             image: pyama/away-from-keyboard:0.0.1
             imagePullPolicy: Always
           restartPolicy: Never
+---
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: away-from-keyboard-presence
+spec:
+  schedule: "*/15 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: away-from-keyboard-presence
+            image: pyama/away-from-keyboard:0.0.1
+            imagePullPolicy: Always
+            env:
+            - name: SLACK_USER
+              value: "afk"
+            - name: LANG
+              value: C.UTF-8
+            - name: SLACK_API_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: away-from-keyboard-secret
+                  key: slack-user-api-token
+            args: ["ruby", "presence.rb"]
+            image: pyama/away-from-keyboard:0.0.1
+            imagePullPolicy: Always
+          restartPolicy: Never

@@ -20,7 +20,12 @@ members.each do |m|
   uid = m["id"]
   redis_key = "#{uid}-presence"
   next if m["is_bot"] || m["deleted"]
-  presence = slack.users_getPresence({user: m["id"]})["presence"]
+  begin
+    presence = slack.users_getPresence({user: m["id"]})["presence"]
+  rescue Slack::Web::Api::Errors::TooManyRequestsError
+    sleep 5
+    retry
+  end
   raw_user_presence = Redis.current.get(redis_key)
   unless raw_user_presence
     user_presence = {

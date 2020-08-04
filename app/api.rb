@@ -2,6 +2,7 @@ require 'sinatra/reloader' if development?
 require 'sinatra/custom_logger'
 require "time"
 require "json"
+require "active_support/time"
 
 module App
   class Api < Sinatra::Base
@@ -31,13 +32,30 @@ module App
       reset(uid)
       Redis.current.lpush("registered", uid)
       case params["command"]
-      when "/afk"
+      when /^\/afk\_*([0-9]*)/
+        minute = $1
         unless params["text"].empty?
           Redis.current.set(uid, "#{params["user_name"]} は席を外しています。「#{params["text"]}」")
         else
           Redis.current.set(uid, "#{params["user_name"]} は席を外しています。反応が遅れるかもしれません。")
         end
-        "行ってらっしゃい!!1"
+
+        unless minute.empty?
+          diff = minute.to_i * 60
+          Redis.current.expire(uid, diff)
+          "行ってらっしゃい!!1 #{(Time.now + diff).strftime("%H:%M")}に自動で解除します"
+        else
+          "行ってらっしゃい!!1"
+        end
+      when "/finish"
+        unless params["text"].empty?
+          Redis.current.set(uid, "#{params["user_name"]} は退勤しました。「#{params["text"]}」")
+        else
+          Redis.current.set(uid, "#{params["user_name"]} は退勤しました。反応が遅れるかもしれません。")
+        end
+        tomorrow = Time.now.beginning_of_day + 3600 * 33
+        Redis.current.expire(uid, (tomorrow - Time.now))
+        "お疲れさまでした!!1 明日の#{tomorrow.strftime("%H:%M")}に自動で解除します"
       when "/lunch"
         unless params["text"].empty?
           Redis.current.set(uid, "#{params["user_name"]} はランチに行っています。「#{params["text"]}」")

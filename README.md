@@ -10,8 +10,9 @@ Slack App経由でRedisに情報を登録して、ボットがそれらの情報
 1. [Slack API](https://api.slack.com/apps) の画面でCreate Appを押下してください。
 2. アプリを作成したら、 `Slack Commands` に下記のように登録します。
   1. `/afk` リクエストエンドポイント `https://<your domain>/register`
-  2. `/lunch` リクエストエンドポイント `https://<your domain>/register`
-  3. `/comeback` リクエストエンドポイント `https://<your domain>/delete`
+  2. `/afk_(number)` リクエストエンドポイント `https://<your domain>/register` (指定した数字分経過で自動解除)
+  3. `/lunch` リクエストエンドポイント `https://<your domain>/register`(60分経過で自動解除)
+  4. `/comeback` リクエストエンドポイント `https://<your domain>/delete`
 
 ### ボットユーザーの作成
 

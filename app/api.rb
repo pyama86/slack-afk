@@ -33,6 +33,10 @@ module App
       reset(uid)
       Redis.current.lpush("registered", uid)
       case params["command"]
+      when "/start"
+        Redis.current.set("#{uid}-begin", Time.now.to_s)
+        bot_token_client.chat_postMessage(channel: params["channel_id"], text: "#{params["user_name"]}が始業しました。",  as_user: true)
+        (ENV['AFK_START_MESSAGE'] ||"おはようございます、今日も自分史上最高の日にしましょう!!1")
       when /^\/afk\_*([0-9]*)/
         minute = $1
         unless params["text"].empty?
@@ -58,7 +62,13 @@ module App
         tomorrow = Time.now.beginning_of_day + 3600 * 33
         Redis.current.expire(uid, (tomorrow - Time.now).to_i)
         bot_token_client.chat_postMessage(channel: params["channel_id"], text: "#{params["user_name"]}が退勤しました。お疲れさまでした！！１",  as_user: true)
-        (ENV['AFK_FINISH_MESSAGE'] ||"お疲れさまでした!!1") + " 明日の#{tomorrow.strftime("%H:%M")}に自動で解除します"
+
+
+        begin_time = Redis.current.get("#{uid}-begin")
+
+        (ENV['AFK_FINISH_MESSAGE'] ||"お疲れさまでした!!1") +
+        (begin_time ? "始業時刻:#{Time.parse(begin_time).strftime("%H:%M")}\n" : "") +
+          " 明日の#{tomorrow.strftime("%H:%M")}に自動で解除します"
       when "/lunch"
         unless params["text"].empty?
           Redis.current.set(uid, "#{params["user_name"]} はランチに行っています。「#{params["text"]}」")

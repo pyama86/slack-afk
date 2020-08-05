@@ -23,7 +23,7 @@ server = SlackRubyBot::Server.new(
       App::Model::Store.set(mention, user_presence)
 
       message = Redis.current.get(mention)
-      client.say(text: "自動応答:#{message}", channel: data.channel,
+      client.say(text: "自動応答: #{message}", channel: data.channel,
                  thread_ts: data.thread_ts
                 ) if mention && message
     }],

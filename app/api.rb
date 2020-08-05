@@ -50,6 +50,9 @@ module App
       content_type 'text/plain; charset=utf8'
       uid = params["user_id"]
       App::Model::Comeback.new.bot_run(uid, params)
+    rescue Slack::Web::Api::Errors::ChannelNotFound
+      pp params
+      "ボットがチャンネルで投稿できないみたいです。DMとかは無理です。"
     end
   end
 end

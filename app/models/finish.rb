@@ -15,7 +15,8 @@ module App
         Redis.current.expire(uid, (tomorrow - Time.now).to_i)
 
         bot_token_client.chat_postMessage(channel: params["channel_id"], text: "#{params["user_name"]}が退勤しました。お疲れさまでした！！１",  as_user: true)
-        begin_time = Redis.current.get("#{uid}-begin")
+        user_presence = App::Model::Store.get(uid)
+        begin_time = user_presence["today_begin"]
 
         (ENV['AFK_FINISH_MESSAGE'] ||"お疲れさまでした!!1") +
         (begin_time ? "始業時刻:#{Time.parse(begin_time).strftime("%H:%M")}\n" : "") +

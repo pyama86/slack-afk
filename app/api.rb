@@ -79,6 +79,9 @@ module App
         bot_token_client.chat_postMessage(channel: params["channel_id"], text: "#{params["user_name"]}がランチに行きました。何食べるんでしょうね？", as_user: true)
         "行ってらっしゃい!!1 #{(Time.now + 3600).strftime("%H:%M")}に自動で解除します"
       end
+    rescue Slack::Web::Api::Errors::ChannelNotFound
+      pp params
+      "ボットがチャンネルで投稿できないみたいです"
     end
 
     post '/delete' do

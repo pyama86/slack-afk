@@ -1,5 +1,4 @@
-require 'slack-ruby-client'
-require './config/initializers/redis'
+require './app'
 require 'json'
 require 'time'
 
@@ -26,24 +25,17 @@ members.each do |m|
     sleep 5
     retry
   end
-  raw_user_presence = Redis.current.get(redis_key)
-  unless raw_user_presence
-    user_presence = {
-      'last_active_start_time' => Time.now.to_s
-    }
-  else
-    user_presence = JSON.parse(raw_user_presence)
-    if user_presence['status'] != presence
-      # awayになったときにactiveだった時間を記録する
-      if presence == 'away'
-          user_presence['history'] ||= []
-          user_presence['history'] << {
-            start: user_presence['last_active_start_time'],
-            end: Time.now.to_s
-          }
-      else
-        user_presence['last_active_start_time'] = Time.now.to_s
-      end
+  user_presence = App::Model::Store.get(uid)
+  if user_presence['status'] != presence
+    # awayになったときにactiveだった時間を記録する
+    if presence == 'away'
+        user_presence['history'] ||= []
+        user_presence['history'] << {
+          start: user_presence['last_active_start_time'],
+          end: Time.now.to_s
+        }
+    else
+      user_presence['last_active_start_time'] = Time.now.to_s
     end
   end
   user_presence['status'] = presence
@@ -54,7 +46,5 @@ members.each do |m|
     next unless h['start']
     Time.parse(h['start']) < Time.now - 30 + 86400
   end if user_presence['history'] && !user_presence['history'].empty?
-
-  Redis.current.set(redis_key, user_presence.to_json)
-  Redis.current.expire(redis_key, 86400*10)
+  App::Model::Store.set(uid, user_presence, 86400*10)
 end

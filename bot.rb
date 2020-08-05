@@ -17,6 +17,7 @@ server = SlackRubyBot::Server.new(
       user_presence["mention_histotry"] << {
         channel: data.channel,
         user: data.user,
+        text: data.text,
         event_ts: data.event_ts
       }
       App::Model::Store.set(mention, user_presence)

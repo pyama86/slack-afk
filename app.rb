@@ -9,6 +9,7 @@ end
 
 [
   'mixins',
+  'models',
 ].each { |subdir|
   Dir[File.join(File.dirname(__FILE__), './app', subdir, '**/*.rb')].sort.each do |file|
     require file

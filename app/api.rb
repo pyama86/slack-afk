@@ -30,70 +30,26 @@ module App
     post '/register' do
       content_type 'text/plain; charset=utf8'
       uid = params["user_id"]
-      reset(uid)
-      Redis.current.lpush("registered", uid)
       case params["command"]
       when "/start"
-        Redis.current.set("#{uid}-begin", Time.now.to_s)
-        bot_token_client.chat_postMessage(channel: params["channel_id"], text: "#{params["user_name"]}が始業しました。",  as_user: true)
-        (ENV['AFK_START_MESSAGE'] ||"おはようございます、今日も自分史上最高の日にしましょう!!1")
+        App::Model::Start.new.bot_run(uid, params)
       when /^\/afk\_*([0-9]*)/
-        minute = $1
-        unless params["text"].empty?
-          Redis.current.set(uid, "#{params["user_name"]} は席を外しています。「#{params["text"]}」")
-        else
-          Redis.current.set(uid, "#{params["user_name"]} は席を外しています。反応が遅れるかもしれません。")
-        end
-
-        bot_token_client.chat_postMessage(channel: params["channel_id"], text: "#{params["user_name"]}が離席しました。代わりに不在をお伝えします",  as_user: true)
-        unless minute.empty?
-          diff = minute.to_i * 60
-          Redis.current.expire(uid, diff.to_i)
-          "行ってらっしゃい!!1 #{(Time.now + diff).strftime("%H:%M")}に自動で解除します"
-        else
-          "行ってらっしゃい!!1"
-        end
+        params["minute"] = $1
+        App::Model::Afk.new.bot_run(uid, params)
       when "/finish"
-        unless params["text"].empty?
-          Redis.current.set(uid, "#{params["user_name"]} は退勤しました。「#{params["text"]}」")
-        else
-          Redis.current.set(uid, "#{params["user_name"]} は退勤しました。反応が遅れるかもしれません。")
-        end
-        tomorrow = Time.now.beginning_of_day + 3600 * 33
-        Redis.current.expire(uid, (tomorrow - Time.now).to_i)
-        bot_token_client.chat_postMessage(channel: params["channel_id"], text: "#{params["user_name"]}が退勤しました。お疲れさまでした！！１",  as_user: true)
-
-
-        begin_time = Redis.current.get("#{uid}-begin")
-
-        (ENV['AFK_FINISH_MESSAGE'] ||"お疲れさまでした!!1") +
-        (begin_time ? "始業時刻:#{Time.parse(begin_time).strftime("%H:%M")}\n" : "") +
-          " 明日の#{tomorrow.strftime("%H:%M")}に自動で解除します"
+        App::Model::Finish.new.bot_run(uid, params)
       when "/lunch"
-        unless params["text"].empty?
-          Redis.current.set(uid, "#{params["user_name"]} はランチに行っています。「#{params["text"]}」")
-        else
-          Redis.current.set(uid, "#{params["user_name"]} はランチに行っています。反応が遅れるかもしれません。")
-        end
-        Redis.current.expire(uid, 3600)
-        bot_token_client.chat_postMessage(channel: params["channel_id"], text: "#{params["user_name"]}がランチに行きました。何食べるんでしょうね？", as_user: true)
-        "行ってらっしゃい!!1 #{(Time.now + 3600).strftime("%H:%M")}に自動で解除します"
+        App::Model::Lunch.new.bot_run(uid, params)
       end
     rescue Slack::Web::Api::Errors::ChannelNotFound
       pp params
-      "ボットがチャンネルで投稿できないみたいです"
+      "ボットがチャンネルで投稿できないみたいです。DMとかは無理です。"
     end
 
     post '/delete' do
       content_type 'text/plain; charset=utf8'
       uid = params["user_id"]
-      reset(uid)
-      "おかえりなさい!!1"
-    end
-
-    def reset(id)
-      Redis.current.lrem("registered", 0, id)
-      Redis.current.del(id)
+      App::Model::Comeback.new.bot_run(uid, params)
     end
   end
 end

@@ -32,14 +32,14 @@ module App
       uid = params["user_id"]
       case params["command"]
       when "/start"
-        App::Model::Start.new.bot_run(uid, params)
+        App::Model::Start.new.run(uid, params)
       when /^\/afk\_*([0-9]*)/
         params["minute"] = $1
-        App::Model::Afk.new.bot_run(uid, params)
+        App::Model::Afk.new.run(uid, params)
       when "/finish"
-        App::Model::Finish.new.bot_run(uid, params)
+        App::Model::Finish.new.run(uid, params)
       when "/lunch"
-        App::Model::Lunch.new.bot_run(uid, params)
+        App::Model::Lunch.new.run(uid, params)
       end
     rescue Slack::Web::Api::Errors::ChannelNotFound
       pp params
@@ -49,7 +49,7 @@ module App
     post '/delete' do
       content_type 'text/plain; charset=utf8'
       uid = params["user_id"]
-      App::Model::Comeback.new.bot_run(uid, params)
+      App::Model::Comeback.new.run(uid, params)
     rescue Slack::Web::Api::Errors::ChannelNotFound
       pp params
       "ボットがチャンネルで投稿できないみたいです。DMとかは無理です。"

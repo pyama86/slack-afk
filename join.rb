@@ -35,10 +35,11 @@ channels.each do |c|
 end
 
 user = members.find {|m|m["name"] == ENV['SLACK_USER']}
-
+exclude_channels = ENV['SLACK_EXCLUDE_CHANNELS'] ? ENV['SLACK_EXCLUDE_CHANNELS'].split(/,/) : []
 channels.each do |c|
   next if c["is_archived"]
   next if c["members"].empty? || c["members"].flatten.find {|m| m == user["id"]}
+  next if exclude_channels.include?(c["name"])
   begin
     slack.conversations_invite({channel: c["id"], users: user["id"]})
   rescue Slack::Web::Api::Errors::AlreadyInChannel

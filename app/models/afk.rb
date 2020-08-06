@@ -7,6 +7,12 @@ module App
       end
 
       def bot_run(uid, params)
+        # ボットがDMとかで投稿できなくてもexpireはいれる
+        unless params["minute"].empty?
+          diff = params["minute"].to_i * 60
+          Redis.current.expire(uid, diff.to_i)
+        end
+
         unless params["text"].empty?
           Redis.current.set(uid, "#{params["user_name"]} は席を外しています。「#{params["text"]}」")
           bot_token_client.chat_postMessage(channel: params["channel_id"], text: "#{params["user_name"]}が離席しました。「#{params["text"]}」",  as_user: true)
@@ -16,8 +22,6 @@ module App
         end
 
         unless params["minute"].empty?
-          diff = params["minute"].to_i * 60
-          Redis.current.expire(uid, diff.to_i)
           "行ってらっしゃい!!1 #{(Time.now + diff).strftime("%H:%M")}に自動で解除します"
         else
           "行ってらっしゃい!!1"

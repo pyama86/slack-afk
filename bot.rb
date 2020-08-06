@@ -11,8 +11,10 @@ server = SlackRubyBot::Server.new(
         data.text =~ /<@#{entry}>/
       end
 
+      cid = data.channel
+      c = App::Model::Store.get(cid)
       message = Redis.current.get(uid) if uid
-      if message
+      if message && c.fetch('enable', 1) == 1
         user_presence = App::Model::Store.get(uid)
         user_presence["mention_histotry"] ||= []
         user_presence["mention_histotry"] = [] if user_presence["mention_histotry"].is_a?(Hash)

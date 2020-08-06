@@ -21,6 +21,27 @@ module App
       'ok'
     end
 
+    post '/channel' do
+      content_type 'text/plain; charset=utf8'
+      cid = params["channel_id"]
+      case params["command"]
+      when "/enable_afk"
+        c = App::Model::Store.get(cid)
+        c['enable'] = 1
+        App::Model::Store.set(cid, c)
+        "このチャンネルでの代理応答を有効にしました"
+      when "/disable_afk"
+        c = App::Model::Store.get(cid)
+        c['enable'] = 0
+        App::Model::Store.set(cid, c)
+        "このチャンネルでの代理応答を無効にしました"
+      end
+    rescue Slack::Web::Api::Errors::ChannelNotFound
+      pp params
+      "ボットがチャンネルで投稿できないみたいです。DMとかは無理です。"
+
+    end
+
     post '/message' do
       content_type 'text/plain; charset=utf8'
       payload = JSON.parse(request.body.read)

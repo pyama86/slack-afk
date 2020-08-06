@@ -6,6 +6,7 @@ server = SlackRubyBot::Server.new(
   hook_handlers: {
     message: [->(client, data) {
       return if data.subtype == "channel_join"
+      return if data.text =~ /\+\+|is up to [0-9]+ points!/
       entries = Redis.current.lrange("registered", 0, -1)
       uid = entries.find do |entry|
         data.text =~ /<@#{entry}>/

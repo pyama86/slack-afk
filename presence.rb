@@ -17,7 +17,7 @@ members.flatten!
 
 members.each do |m|
   uid = m["id"]
-  redis_key = "#{uid}-presence"
+  redis_key = "#{uid}-store"
   next if m["is_bot"] || m["deleted"]
   begin
     presence = slack.users_getPresence({user: m["id"]})["presence"]

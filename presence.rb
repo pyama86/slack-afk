@@ -6,14 +6,33 @@ slack = Slack::Web::Client.new(token: ENV["SLACK_API_TOKEN"])
 
 members = []
 next_cursor = nil
-
 loop do
-  slack_users = slack.users_list({limit: 1000, cursor: next_cursor})
-  members << slack_users['members']
-  next_cursor = slack_users['response_metadata']['next_cursor']
+  t = slack.users_list({limit: 1000, cursor: next_cursor})
+  members << t['members']
+  next_cursor = t['response_metadata']['next_cursor']
   break if next_cursor.empty?
 end
 members.flatten!
+Redis.current.set("members", members.to_json)
+
+groups = []
+next_cursor = nil
+
+t = slack.usergroups_list({limit: 1000})
+groups << t['usergroups']
+groups.flatten!
+
+groups.each do |g|
+  begin
+    t = slack.usergroups_users_list({usergroup: g["id"]})
+  rescue Slack::Web::Api::Errors::TooManyRequestsError
+    sleep 5
+    retry
+  end
+  g["users"] = t['users']
+end
+
+Redis.current.set("groups", groups.to_json)
 
 members.each do |m|
   uid = m["id"]

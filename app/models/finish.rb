@@ -16,6 +16,8 @@ module App
 
         user_presence = App::Model::Store.get(uid)
         begin_time = user_presence["today_begin"]
+        user_presence["today_end"] = Time.now.to_s
+        App::Model::Store.set(uid, user_presence)
 
         bot_token_client.chat_postMessage(channel: params["channel_id"], text: "#{params["user_name"]}が退勤しました。お疲れさまでした！！１",  as_user: true)
         (ENV['AFK_FINISH_MESSAGE'] ||"お疲れさまでした!!1") +

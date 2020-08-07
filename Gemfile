@@ -16,3 +16,5 @@ gem 'redis'
 gem 'foreman'
 
 gem 'async-websocket', '~>0.8.0'
+
+gem 'terminal-table'

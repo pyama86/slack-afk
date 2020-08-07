@@ -43,8 +43,7 @@ members.each do |m|
 
   # 1ヶ月前のデータは削除する
   user_presence['history'].reject! do |h|
-    next unless h['start']
-    Time.parse(h['start']) < Time.now - 30 + 86400
+    !h['start'] || Time.parse(h['start']) < Time.now - 30 * 86400
   end if user_presence['history'] && !user_presence['history'].empty?
   App::Model::Store.set(uid, user_presence, 86400*10)
 end

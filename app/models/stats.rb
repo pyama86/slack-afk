@@ -16,6 +16,7 @@ module App
           target = groups.find do|m|
             m["name"] == mention
           end
+          return "対象のチームメンションが見つかりませんでした" unless target
           users = target["users"]
         else
           users = [target["id"]]
@@ -34,8 +35,7 @@ module App
             start = s && s.today? ? s.strftime("%H:%M") : "本日の登録なし"
             lunch = l && l.today? ? l.strftime("%H:%M") : "本日の登録なし"
             _end = e && e.today? ? e.strftime("%H:%M") : "本日の登録なし"
-            is_here = !entries.find {|entry| entry == uid }
-
+            is_here = !entries.find {|entry| entry == uid } || !Redis.current.get(uid)
             now = is_here ? "在席" : "離席"
             leave_message = is_here ? "" : Redis.current.get(uid)
             result << [us["name"], now, start, lunch, _end, leave_message]

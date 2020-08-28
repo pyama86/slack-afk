@@ -9,28 +9,31 @@ server = SlackRubyBot::Server.new(
       return if data.subtype == "bot_message"
       return if data.text =~ /\+\+|is up to [0-9]+ points!/
       entries = Redis.current.lrange("registered", 0, -1)
-      uid = entries.find do |entry|
+      uids = entries.select do |entry|
         data.text =~ /<@#{entry}>/
       end
 
       cid = data.channel
       c = App::Model::Store.get(cid)
-      message = Redis.current.get(uid) if uid
-      if message && c.fetch('enable', 1) == 1
-        user_presence = App::Model::Store.get(uid)
-        user_presence["mention_histotry"] ||= []
-        user_presence["mention_histotry"] = [] if user_presence["mention_histotry"].is_a?(Hash)
-        user_presence["mention_histotry"] << {
-          channel: data.channel,
-          user: data.user,
-          text: data.text && data.text.gsub(/<@#{uid}>/, ''),
-          event_ts: data.event_ts
-        }
-        App::Model::Store.set(uid, user_presence)
 
-        client.say(text: "自動応答: #{message}", channel: data.channel,
-                   thread_ts: data.thread_ts
-                  )
+      uids.each do |uid|
+        message = Redis.current.get(uid)
+        if message && c.fetch('enable', 1) == 1
+          user_presence = App::Model::Store.get(uid)
+          user_presence["mention_histotry"] ||= []
+          user_presence["mention_histotry"] = [] if user_presence["mention_histotry"].is_a?(Hash)
+          user_presence["mention_histotry"] << {
+            channel: data.channel,
+            user: data.user,
+            text: data.text && data.text.gsub(/<@#{uid}>/, ''),
+            event_ts: data.event_ts
+          }
+          App::Model::Store.set(uid, user_presence)
+
+          client.say(text: "自動応答: #{message}", channel: data.channel,
+                     thread_ts: data.thread_ts
+                    )
+        end
       end
     }],
     ping: [->(client, data) {

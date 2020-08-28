@@ -13,10 +13,10 @@ module App
         end
       end
 
-      def self.set(uid, val, expire=0)
+      def self.set(uid, val, expire=86400*30)
         redis_key = "#{uid}-store"
         Redis.current.set(redis_key, val.to_json)
-        Redis.current.expire(redis_key, expire) if expire != 0
+        Redis.current.expire(redis_key, expire)
       end
     end
   end

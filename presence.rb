@@ -64,5 +64,5 @@ members.each do |m|
   user_presence['history'].reject! do |h|
     !h['start'] || Time.parse(h['start']) < Time.now - 30 * 86400
   end if user_presence['history'] && !user_presence['history'].empty?
-  App::Model::Store.set(uid, user_presence, 86400*10)
+  App::Model::Store.set(uid, user_presence)
 end

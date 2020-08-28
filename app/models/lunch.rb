@@ -17,7 +17,7 @@ module App
 
         user_presence = App::Model::Store.get(uid)
         user_presence["last_lunch_date"] = Time.now.to_s
-        App::Model::Store.set(uid, user_presence, 86400*10)
+        App::Model::Store.set(uid, user_presence)
       end
     end
   end

@@ -57,7 +57,7 @@ module App
       when /^\/afk\_*([0-9]*)/
         params["minute"] = $1
         App::Model::Afk.new.run(uid, params)
-      when "/finish","/afk_finish"
+      when "/finish","/afk_end"
         App::Model::Finish.new.run(uid, params)
       when "/lunch","/afk_lunch"
         App::Model::Lunch.new.run(uid, params)

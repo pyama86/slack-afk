@@ -25,12 +25,12 @@ module App
       content_type 'text/plain; charset=utf8'
       cid = params["channel_id"]
       case params["command"]
-      when "/enable_afk"
+      when "/enable_afk","/afk_enable"
         c = App::Model::Store.get(cid)
         c['enable'] = 1
         App::Model::Store.set(cid, c)
         "このチャンネルでの代理応答を有効にしました"
-      when "/disable_afk"
+      when "/disable_afk","/afk_disable"
         c = App::Model::Store.get(cid)
         c['enable'] = 0
         App::Model::Store.set(cid, c)
@@ -52,14 +52,14 @@ module App
       content_type 'text/plain; charset=utf8'
       uid = params["user_id"]
       case params["command"]
-      when "/start"
+      when "/start","/afk_start"
         App::Model::Start.new.run(uid, params)
       when /^\/afk\_*([0-9]*)/
         params["minute"] = $1
         App::Model::Afk.new.run(uid, params)
-      when "/finish"
+      when "/finish","/afk_finish"
         App::Model::Finish.new.run(uid, params)
-      when "/lunch"
+      when "/lunch","/afk_lunch"
         App::Model::Lunch.new.run(uid, params)
       end
     rescue Slack::Web::Api::Errors::ChannelNotFound

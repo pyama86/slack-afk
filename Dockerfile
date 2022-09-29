@@ -1,4 +1,4 @@
-FROM ruby:2.6.3
+FROM ruby:3.1
 ADD Gemfile      /opt/away-from-keyboard/Gemfile
 ADD Gemfile.lock /opt/away-from-keyboard/Gemfile.lock
 

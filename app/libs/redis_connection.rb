@@ -12,7 +12,7 @@ module RedisConnection
     opt[:password] = ENV['REDIS_PASSWORD'] if ENV['REDIS_PASSWORD']
     opt[:db] = ENV['REDIS_DB'] if ENV['REDIS_DB']
 
-    @pool = ConnectionPool::Wrapper.new(opt) do
+    @pool = ConnectionPool::Wrapper.new({ size: 5, timeout: 5 }) do
       Redis.new(opt)
     end
   end

@@ -13,7 +13,7 @@ module RedisConnection
     opt[:db] = ENV['REDIS_DB'] if ENV['REDIS_DB']
 
     @pool = ConnectionPool::Wrapper.new(opt) do
-      Redis.new(config)
+      Redis.new(opt)
     end
   end
 

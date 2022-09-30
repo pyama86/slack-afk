@@ -150,6 +150,7 @@ DEPENDENCIES
   activesupport
   async-websocket (~> 0.8.0)
   config
+  connection_pool
   dotenv
   foreman
   redis

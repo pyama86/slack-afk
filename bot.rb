@@ -8,7 +8,7 @@ server = SlackRubyBot::Server.new(
       return if data.subtype == "channel_join"
       return if data.subtype == "bot_message"
       return if data.text =~ /\+\+|is up to [0-9]+ points!/
-      entries = Redis.current.lrange("registered", 0, -1)
+      entries = RedisConnection.pool.lrange("registered", 0, -1)
       uids = entries.select do |entry|
         data.text =~ /<@#{entry}>/
       end
@@ -17,7 +17,7 @@ server = SlackRubyBot::Server.new(
       c = App::Model::Store.get(cid)
 
       uids.each do |uid|
-        message = Redis.current.get(uid)
+        message = RedisConnection.pool.get(uid)
         if message && c.fetch('enable', 1) == 1
           user_presence = App::Model::Store.get(uid)
           user_presence["mention_histotry"] ||= []

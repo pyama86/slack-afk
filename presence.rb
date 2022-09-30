@@ -13,7 +13,7 @@ loop do
   break if next_cursor.empty?
 end
 members.flatten!
-Redis.current.set("members", members.to_json)
+RedisConnection.pool.set("members", members.to_json)
 
 groups = []
 next_cursor = nil
@@ -32,7 +32,7 @@ groups.each do |g|
   g["users"] = t['users']
 end
 
-Redis.current.set("groups", groups.to_json)
+RedisConnection.pool.set("groups", groups.to_json)
 
 members.each do |m|
   uid = m["id"]

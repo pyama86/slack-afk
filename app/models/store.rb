@@ -3,7 +3,7 @@ module App
     class Store
       def self.get(uid)
         redis_key = "#{uid}-store"
-        raw_user_presence = Redis.current.get(redis_key)
+        raw_user_presence = RedisConnection.pool.get(redis_key)
         unless raw_user_presence
           {
             'last_active_start_time' => Time.now.to_s
@@ -15,8 +15,8 @@ module App
 
       def self.set(uid, val, expire=86400*30)
         redis_key = "#{uid}-store"
-        Redis.current.set(redis_key, val.to_json)
-        Redis.current.expire(redis_key, expire)
+        RedisConnection.pool.set(redis_key, val.to_json)
+        RedisConnection.pool.expire(redis_key, expire)
       end
     end
   end

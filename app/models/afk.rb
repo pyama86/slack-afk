@@ -8,17 +8,17 @@ module App
 
       def bot_run(uid, params)
         unless params["text"].empty?
-          Redis.current.set(uid, "#{params["user_name"]} は席を外しています。「#{params["text"]}」")
+          RedisConnection.pool.set(uid, "#{params["user_name"]} は席を外しています。「#{params["text"]}」")
           bot_token_client.chat_postMessage(channel: params["channel_id"], text: "#{params["user_name"]}が離席しました。「#{params["text"]}」",  as_user: true)
         else
-          Redis.current.set(uid, "#{params["user_name"]} は席を外しています。反応が遅れるかもしれません。")
+          RedisConnection.pool.set(uid, "#{params["user_name"]} は席を外しています。反応が遅れるかもしれません。")
           bot_token_client.chat_postMessage(channel: params["channel_id"], text: "#{params["user_name"]}が離席しました。代わりに不在をお伝えします",  as_user: true)
         end
 
         # ボットがDMとかで投稿できなくてもexpireはいれる
         unless params["minute"].empty?
           diff = params["minute"].to_i * 60
-          Redis.current.expire(uid, diff.to_i)
+          RedisConnection.pool.expire(uid, diff.to_i)
         end
 
         unless params["minute"].empty?

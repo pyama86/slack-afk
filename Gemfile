@@ -1,20 +1,20 @@
 # frozen_string_literal: true
 
-source "https://rubygems.org"
+source 'https://rubygems.org'
 
-git_source(:github) {|repo_name| "https://github.com/#{repo_name}" }
+git_source(:github) { |repo_name| "https://github.com/#{repo_name}" }
 
+gem 'activesupport'
+gem 'async-websocket', '~>0.8.0'
+gem 'config'
+gem 'connection_pool'
+gem 'dotenv'
+gem 'foreman'
+gem 'redis'
 gem 'sinatra'
 gem 'sinatra-contrib'
-gem 'unicorn'
-gem 'dotenv'
-gem 'config'
 gem 'slack-ruby-bot'
 gem 'slack-ruby-client', github: 'pyama86/slack-ruby-client', branch: 'nil-check'
-gem 'activesupport'
-gem 'redis'
-gem 'foreman'
-
-gem 'async-websocket', '~>0.8.0'
+gem 'unicorn'
 
 gem 'terminal-table'

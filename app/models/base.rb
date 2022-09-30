@@ -3,8 +3,8 @@ module App
     class Base
       include SlackApiCallerble
       def reset(uid)
-        Redis.current.lrem("registered", 0, uid)
-        Redis.current.del(uid)
+        RedisConnection.pool.lrem("registered", 0, uid)
+        RedisConnection.pool.del(uid)
       end
 
       def add_list?
@@ -30,7 +30,7 @@ module App
       def run(uid, params)
         reset(uid)
         if add_list?
-          Redis.current.lpush("registered", uid)
+          RedisConnection.pool.lpush("registered", uid)
           user_presence = App::Model::Store.get(uid)
           user_presence["mention_histotry"] = []
           App::Model::Store.set(uid, user_presence)

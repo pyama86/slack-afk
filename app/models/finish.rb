@@ -7,12 +7,12 @@ module App
 
       def bot_run(uid, params)
         unless params["text"].empty?
-          Redis.current.set(uid, "#{params["user_name"]} は退勤しました。「#{params["text"]}」")
+          RedisConnection.pool.set(uid, "#{params["user_name"]} は退勤しました。「#{params["text"]}」")
         else
-          Redis.current.set(uid, "#{params["user_name"]} は退勤しました。反応が遅れるかもしれません。")
+          RedisConnection.pool.set(uid, "#{params["user_name"]} は退勤しました。反応が遅れるかもしれません。")
         end
         tomorrow = Time.now.beginning_of_day + 3600 * 33
-        Redis.current.expire(uid, (tomorrow - Time.now).to_i)
+        RedisConnection.pool.expire(uid, (tomorrow - Time.now).to_i)
 
         user_presence = App::Model::Store.get(uid)
         begin_time = user_presence["today_begin"]

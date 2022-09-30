@@ -6,13 +6,13 @@ module App
         mentions = params["text"].scan(/@[\w-]+/)
         return "該当者がいないみたいです" if mentions.empty?
         mention = mentions[0].gsub(/@/, '')
-        members = JSON.parse Redis.current.get("members")
+        members = JSON.parse RedisConnection.pool.get("members")
         target = members.find do|m|
           m["name"] == mention
         end
 
         unless target
-          groups = JSON.parse Redis.current.get("groups")
+          groups = JSON.parse RedisConnection.pool.get("groups")
           target = groups.find do|m|
             m["name"] == mention
           end
@@ -23,7 +23,7 @@ module App
         end
 
 
-        entries = Redis.current.lrange("registered", 0, -1)
+        entries = RedisConnection.pool.lrange("registered", 0, -1)
         begin
           result = []
           users.each do |uid|
@@ -35,9 +35,9 @@ module App
             start = s && s.today? ? s.strftime("%H:%M") : "本日の登録なし"
             lunch = l && l.today? ? l.strftime("%H:%M") : "本日の登録なし"
             _end = e && e.today? ? e.strftime("%H:%M") : "本日の登録なし"
-            is_here = !entries.find {|entry| entry == uid } || !Redis.current.get(uid)
+            is_here = !entries.find {|entry| entry == uid } || !RedisConnection.pool.get(uid)
             now = is_here ? "在席" : "離席"
-            leave_message = is_here ? "" : Redis.current.get(uid)
+            leave_message = is_here ? "" : RedisConnection.pool.get(uid)
             result << [us["name"], now, start, lunch, _end, leave_message]
           end
 

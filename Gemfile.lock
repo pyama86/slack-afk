@@ -106,7 +106,7 @@ GEM
     mustermann (3.0.0)
       ruby2_keywords (~> 0.0.1)
     rack (2.2.4)
-    rack-protection (3.0.1)
+    rack-protection (3.0.2)
       rack
     raindrops (0.20.0)
     redis (5.0.5)
@@ -114,16 +114,16 @@ GEM
     redis-client (0.9.0)
       connection_pool
     ruby2_keywords (0.0.5)
-    sinatra (3.0.1)
+    sinatra (3.0.2)
       mustermann (~> 3.0)
       rack (~> 2.2, >= 2.2.4)
-      rack-protection (= 3.0.1)
+      rack-protection (= 3.0.2)
       tilt (~> 2.0)
-    sinatra-contrib (3.0.1)
+    sinatra-contrib (3.0.2)
       multi_json
       mustermann (~> 3.0)
-      rack-protection (= 3.0.1)
-      sinatra (= 3.0.1)
+      rack-protection (= 3.0.2)
+      sinatra (= 3.0.2)
       tilt (~> 2.0)
     slack-ruby-bot (0.16.1)
       activesupport

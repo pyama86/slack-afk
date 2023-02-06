@@ -5,7 +5,7 @@ source 'https://rubygems.org'
 git_source(:github) { |repo_name| "https://github.com/#{repo_name}" }
 
 gem 'activesupport'
-gem 'async-websocket', '~> 0.8.0'
+gem 'async-websocket', '~> 0.23.1'
 gem 'config'
 gem 'connection_pool'
 gem 'dotenv'

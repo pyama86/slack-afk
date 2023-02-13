@@ -34,7 +34,7 @@ GEM
       async
     async-pool (0.3.12)
       async (>= 1.25)
-    async-websocket (0.23.1)
+    async-websocket (0.24.0)
       async-http (~> 0.54)
       async-io (~> 1.23)
       protocol-rack (~> 0.1)
@@ -119,10 +119,10 @@ GEM
     mustermann (3.0.0)
       ruby2_keywords (~> 0.0.1)
     protocol-hpack (1.4.2)
-    protocol-http (0.24.0)
+    protocol-http (0.24.1)
     protocol-http1 (0.15.0)
       protocol-http (~> 0.22)
-    protocol-http2 (0.15.0)
+    protocol-http2 (0.15.1)
       protocol-hpack (~> 1.4)
       protocol-http (~> 0.18)
     protocol-rack (0.2.4)
@@ -176,7 +176,7 @@ PLATFORMS
 
 DEPENDENCIES
   activesupport
-  async-websocket (~> 0.23.1)
+  async-websocket (~> 0.24.0)
   config
   connection_pool
   dotenv

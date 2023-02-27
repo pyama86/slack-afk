@@ -1,4 +1,4 @@
-VERSION := $(shell git-semv now | sed -e 's/v//g')
+VERSION := $(shell git-semv now | sed -e 's/v//g')-$(shell git show --format='%h' --no-patch)
 build:
 	docker build --platform linux/amd64 -t pyama/away-from-keyboard:$(VERSION)  .
 	docker push pyama/away-from-keyboard:$(VERSION)

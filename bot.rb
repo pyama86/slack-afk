@@ -44,7 +44,7 @@ server = SlackRubyBot::Server.new(
 )
 
 Thread.new do
-  server = TCPServer.new 1234
+  server = TCPServer.new('0.0.0.0', 1234)
   loop do
     begin
       sock = server.accept

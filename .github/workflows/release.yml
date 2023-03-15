@@ -5,6 +5,8 @@ on:
       - master
     tags:
       - "v*"
+    schedule:
+      - cron:  '55 0 * * *'
 jobs:
   release:
     runs-on: ubuntu-latest

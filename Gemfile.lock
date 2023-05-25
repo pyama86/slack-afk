@@ -19,7 +19,7 @@ GEM
     config (4.2.0)
       deep_merge (~> 1.2, >= 1.2.1)
       dry-validation (~> 1.0, >= 1.0.0)
-    connection_pool (2.4.0)
+    connection_pool (2.4.1)
     console (1.16.2)
       fiber-local
     deep_merge (1.2.2)

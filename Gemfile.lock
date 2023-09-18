@@ -15,6 +15,7 @@ GEM
     async-websocket (0.8.0)
       async-io
       websocket-driver (~> 0.7.0)
+    base64 (0.1.1)
     concurrent-ruby (1.2.2)
     config (4.2.1)
       deep_merge (~> 1.2, >= 1.2.1)
@@ -56,7 +57,8 @@ GEM
       dry-initializer (~> 3.0)
       dry-schema (>= 1.12, < 2)
       zeitwerk (~> 2.6)
-    faraday (2.7.4)
+    faraday (2.7.11)
+      base64
       faraday-net_http (>= 2.0, < 3.1)
       ruby2_keywords (>= 0.0.4)
     faraday-mashify (0.1.1)
@@ -67,7 +69,7 @@ GEM
     faraday-net_http (3.0.2)
     fiber-local (1.0.0)
     foreman (0.87.2)
-    gli (2.21.0)
+    gli (2.21.1)
     hashie (5.0.0)
     i18n (1.14.1)
       concurrent-ruby (~> 1.0)
@@ -102,7 +104,7 @@ GEM
       activesupport
       hashie
       slack-ruby-client (>= 0.14.0)
-    slack-ruby-client (2.1.0)
+    slack-ruby-client (2.2.0)
       faraday (>= 2.0)
       faraday-mashify
       faraday-multipart

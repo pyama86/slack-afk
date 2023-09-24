@@ -2,15 +2,15 @@ module App
   module Model
     class Base
       include SlackApiCallerble
+      include OpenAICallerble
       def reset(uid)
-        RedisConnection.pool.lrem("registered", 0, uid)
+        RedisConnection.pool.lrem('registered', 0, uid)
         RedisConnection.pool.del(uid)
       end
 
       def add_list?
         false
       end
-
 
       def return_message(message)
         message + tips
@@ -23,16 +23,16 @@ module App
         ].sample
       end
 
-      def bot_run(uid, params)
+      def bot_run(_uid, _params)
         raise "bot run isn't defined"
       end
 
       def run(uid, params)
         reset(uid)
         if add_list?
-          RedisConnection.pool.lpush("registered", uid)
+          RedisConnection.pool.lpush('registered', uid)
           user_presence = App::Model::Store.get(uid)
-          user_presence["mention_histotry"] = []
+          user_presence['mention_histotry'] = []
           App::Model::Store.set(uid, user_presence)
         end
 

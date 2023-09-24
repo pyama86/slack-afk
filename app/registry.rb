@@ -15,7 +15,7 @@ module App
     end
 
     def self.openai_client
-      @@registry[:openai_client]
+      @@registry[:bot_token_client]
     end
   end
 end

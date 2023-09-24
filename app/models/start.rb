@@ -14,7 +14,7 @@ module App
         if ENV['OPENAI_API_KEY']
           @openai_message ||= {}
           unless @openai_message[Date.today]
-            response = openai_client.chat(
+            r = openai_client.chat(
               parameters: {
                 model: 'gpt-4',
                 messages: [{ role: 'user', content: <<~EOS
@@ -31,7 +31,7 @@ module App
                 }] # Required.
               }
             )
-            @openai_message[Date.today] = response
+            @openai_message[Date.today] = r.dig('choices', 0, 'message', 'content')
           end
           response = @openai_message[Date.today]
         end

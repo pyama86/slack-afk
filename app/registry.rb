@@ -1,5 +1,6 @@
 module App
   class Registry
+
     @@registry = {}
 
     def self.find(key)
@@ -11,10 +12,6 @@ module App
     end
 
     def self.bot_token_client
-      @@registry[:bot_token_client]
-    end
-
-    def self.openai_client
       @@registry[:bot_token_client]
     end
   end

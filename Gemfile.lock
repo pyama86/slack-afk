@@ -88,6 +88,9 @@ GEM
       redis-client (>= 0.9.0)
     redis-client (0.15.0)
       connection_pool
+    ruby-openai (5.1.0)
+      faraday (>= 1)
+      faraday-multipart (>= 1)
     ruby2_keywords (0.0.5)
     sinatra (3.1.0)
       mustermann (~> 3.0)
@@ -136,6 +139,7 @@ DEPENDENCIES
   dotenv
   foreman
   redis
+  ruby-openai
   sinatra
   sinatra-contrib
   slack-ruby-bot

@@ -17,4 +17,5 @@ gem 'slack-ruby-bot'
 gem 'slack-ruby-client'
 gem 'unicorn'
 
+gem 'ruby-openai'
 gem 'terminal-table'

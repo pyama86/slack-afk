@@ -25,7 +25,8 @@ if ENV['AFK_START_MESSAGE'] && RedisConnection.pool.get("start_#{Date.today}").n
 
   r = response.dig('choices', 0, 'message', 'content')
   puts "start_message: #{r}"
-  App::Model::Store.set("start_#{Date.today}", r)
+  RedisConnection.pool.set("start_#{Date.today}", r)
+  RedisConnection.pool.expire("start_#{Date.today}", 86_400)
 end
 
 if ENV['AFK_FINISH_MESSAGE'] && RedisConnection.pool.get("finish_#{Date.today}").nil?
@@ -48,5 +49,7 @@ if ENV['AFK_FINISH_MESSAGE'] && RedisConnection.pool.get("finish_#{Date.today}")
 
   r = response.dig('choices', 0, 'message', 'content')
   puts "finish_message: #{r}"
-  App::Model::Store.set("finish_#{Date.today}", r)
+  RedisConnection.pool.set("finish_#{Date.today}", r)
+  RedisConnection.pool.expire("finish_#{Date.today}", 86_400)
+
 end

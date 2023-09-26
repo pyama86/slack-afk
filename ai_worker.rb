@@ -5,7 +5,7 @@ return unless ENV['OPENAI_API_KEY']
 openai = ::OpenAI::Client.new(
   access_token: ENV['OPENAI_API_KEY']
 )
-if ENV['AFK_START_MESSAGE']
+if ENV['AFK_START_MESSAGE'] && RedisConnection.pool.get("start_#{Date.today}").nil?
   response = openai.chat(
     parameters: {
       model: 'gpt-4',
@@ -28,7 +28,7 @@ if ENV['AFK_START_MESSAGE']
   App::Model::Store.set("start_#{Date.today}", r)
 end
 
-if ENV['AFK_FINISH_MESSAGE']
+if ENV['AFK_FINISH_MESSAGE'] && RedisConnection.pool.get("finish_#{Date.today}").nil?
   response = openai.chat(
     parameters: {
       model: 'gpt-4',

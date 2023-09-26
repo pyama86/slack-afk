@@ -20,7 +20,7 @@ module App
         App::Model::Store.set(uid, user_presence)
 
         bot_token_client.chat_postMessage(channel: params['channel_id'], text: "#{params['user_name']}が退勤しました。お疲れさまでした！！１", as_user: true)
-        (RedisConnection.pool.get("finish_#{Date.today}") || ENV['AFK_FINISH_MESSAGE'] || 'お疲れさまでした!!1') +
+        (RedisConnection.pool.get("finish_#{Date.today}") + "\n\n" || ENV['AFK_FINISH_MESSAGE'] || 'お疲れさまでした!!1') +
           (begin_time ? "始業時刻:#{Time.parse(begin_time).strftime('%H:%M')}\n" : '') +
           " 明日の#{tomorrow.strftime('%H:%M')}に自動で解除します"
       end

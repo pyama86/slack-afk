@@ -1,7 +1,7 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    activesupport (7.1.1)
+    activesupport (7.1.2)
       base64
       bigdecimal
       concurrent-ruby (~> 1.0, >= 1.0.2)
@@ -20,7 +20,7 @@ GEM
     async-websocket (0.8.0)
       async-io
       websocket-driver (~> 0.7.0)
-    base64 (0.1.1)
+    base64 (0.2.0)
     bigdecimal (3.1.4)
     concurrent-ruby (1.2.2)
     config (5.0.0)
@@ -31,7 +31,7 @@ GEM
       fiber-local
     deep_merge (1.2.2)
     dotenv (2.8.1)
-    drb (2.1.1)
+    drb (2.2.0)
       ruby2_keywords
     dry-configurable (1.1.0)
       dry-core (~> 1.0, < 2)
@@ -89,7 +89,7 @@ GEM
     multipart-post (2.3.0)
     mustermann (3.0.0)
       ruby2_keywords (~> 0.0.1)
-    mutex_m (0.1.2)
+    mutex_m (0.2.0)
     rack (2.2.8)
     rack-protection (3.1.0)
       rack (~> 2.2, >= 2.2.4)

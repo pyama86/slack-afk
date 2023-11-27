@@ -65,8 +65,8 @@ GEM
       dry-initializer (~> 3.0)
       dry-schema (>= 1.12, < 2)
       zeitwerk (~> 2.6)
-    event_stream_parser (0.3.0)
-    faraday (2.7.11)
+    event_stream_parser (1.0.0)
+    faraday (2.7.12)
       base64
       faraday-net_http (>= 2.0, < 3.1)
       ruby2_keywords (>= 0.0.4)
@@ -98,8 +98,8 @@ GEM
       redis-client (>= 0.17.0)
     redis-client (0.17.1)
       connection_pool
-    ruby-openai (6.2.0)
-      event_stream_parser (>= 0.3.0, < 1.0.0)
+    ruby-openai (6.3.0)
+      event_stream_parser (>= 0.3.0, < 2.0.0)
       faraday (>= 1)
       faraday-multipart (>= 1)
     ruby2_keywords (0.0.5)

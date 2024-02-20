@@ -32,7 +32,7 @@ GEM
       fiber-annotation
       fiber-local
     deep_merge (1.2.2)
-    dotenv (2.8.1)
+    dotenv (3.0.2)
     drb (2.2.0)
       ruby2_keywords
     dry-configurable (1.1.0)

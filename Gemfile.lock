@@ -95,7 +95,7 @@ GEM
     mutex_m (0.2.0)
     net-http (0.4.1)
       uri
-    rack (3.0.8)
+    rack (3.0.9.1)
     rack-protection (4.0.0)
       base64 (>= 0.1.0)
       rack (>= 3.0.0, < 4)

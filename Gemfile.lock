@@ -55,7 +55,7 @@ GEM
     kgio (2.11.4)
     minitest (5.22.2)
     multi_json (1.15.0)
-    multipart-post (2.3.0)
+    multipart-post (2.4.0)
     mustermann (3.0.0)
       ruby2_keywords (~> 0.0.1)
     mutex_m (0.2.0)
@@ -72,7 +72,7 @@ GEM
       redis-client (>= 0.17.0)
     redis-client (0.19.1)
       connection_pool
-    ruby-openai (6.3.1)
+    ruby-openai (6.5.0)
       event_stream_parser (>= 0.3.0, < 2.0.0)
       faraday (>= 1)
       faraday-multipart (>= 1)

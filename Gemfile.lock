@@ -68,9 +68,9 @@ GEM
     rack-session (2.0.0)
       rack (>= 3.0.0)
     raindrops (0.20.1)
-    redis (5.1.0)
-      redis-client (>= 0.17.0)
-    redis-client (0.19.1)
+    redis (5.2.0)
+      redis-client (>= 0.22.0)
+    redis-client (0.22.1)
       connection_pool
     ruby-openai (6.5.0)
       event_stream_parser (>= 0.3.0, < 2.0.0)

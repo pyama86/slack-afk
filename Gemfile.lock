@@ -34,8 +34,9 @@ GEM
     dotenv (3.1.2)
     drb (2.2.1)
     event_stream_parser (1.0.0)
-    faraday (2.9.1)
+    faraday (2.10.0)
       faraday-net_http (>= 2.0, < 3.2)
+      logger
     faraday-mashify (0.1.1)
       faraday (~> 2.0)
       hashie
@@ -52,6 +53,7 @@ GEM
       concurrent-ruby (~> 1.0)
     io-event (1.4.2)
     kgio (2.11.4)
+    logger (1.6.0)
     minitest (5.23.1)
     multi_json (1.15.0)
     multipart-post (2.4.1)
@@ -92,7 +94,7 @@ GEM
       activesupport
       hashie
       slack-ruby-client (>= 0.14.0)
-    slack-ruby-client (2.3.0)
+    slack-ruby-client (2.4.0)
       faraday (>= 2.0)
       faraday-mashify
       faraday-multipart

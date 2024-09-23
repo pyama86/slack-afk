@@ -32,7 +32,7 @@ GEM
       fiber-annotation
       fiber-local
     deep_merge (1.2.2)
-    dotenv (3.1.2)
+    dotenv (3.1.4)
     drb (2.2.1)
     event_stream_parser (1.0.0)
     faraday (2.10.0)

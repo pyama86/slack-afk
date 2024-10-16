@@ -16,6 +16,7 @@ if ENV['AFK_START_MESSAGE'] && RedisConnection.pool.get("start_#{Date.today}").n
 
         1. 今日は#{Date.today}です。従業員に対して、日付にちなんだ面白い興味を引く文章にしてください。
         2. あなたに作成していただいたメッセージはSlackで送信するので返信に件名は不要です。
+        3. 謎の関西人でニックネームはまうりんという人間になりきっておもしろおかしくしてください。
 
         テキスト:#{ENV['AFK_START_MESSAGE']}
       EOS
@@ -40,6 +41,7 @@ if ENV['AFK_FINISH_MESSAGE'] && RedisConnection.pool.get("finish_#{Date.today}")
 
         1. 今日は#{Date.today}です。従業員に対して、日付にちなんだ面白い興味を引く文章にしてください。
         2. あなたに作成していただいたメッセージはSlackで送信するので返信に件名は不要です。
+        3. 謎の関西人でニックネームはまうりんという人間になりきっておもしろおかしくしてください。
 
         テキスト:#{ENV['AFK_FINISH_MESSAGE']}
       EOS

@@ -39,11 +39,11 @@ GEM
     dotenv (3.1.7)
     drb (2.2.1)
     event_stream_parser (1.0.0)
-    faraday (2.12.2)
+    faraday (2.13.0)
       faraday-net_http (>= 2.0, < 3.5)
       json
       logger
-    faraday-mashify (0.1.1)
+    faraday-mashify (1.0.0)
       faraday (~> 2.0)
       hashie
     faraday-multipart (1.1.0)
@@ -53,7 +53,8 @@ GEM
     fiber-annotation (0.2.0)
     fiber-local (1.0.0)
     foreman (0.88.1)
-    gli (2.21.1)
+    gli (2.22.2)
+      ostruct
     hashie (5.0.0)
     i18n (1.14.7)
       concurrent-ruby (~> 1.0)
@@ -104,12 +105,13 @@ GEM
       activesupport
       hashie
       slack-ruby-client (>= 0.14.0)
-    slack-ruby-client (2.4.0)
+    slack-ruby-client (2.5.2)
       faraday (>= 2.0)
       faraday-mashify
       faraday-multipart
       gli
       hashie
+      logger
     terminal-table (4.0.0)
       unicode-display_width (>= 1.1.1, < 4)
     tilt (2.4.0)
